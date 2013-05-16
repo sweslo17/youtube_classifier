@@ -1,0 +1,89 @@
+0	Drama
+1	Drama/Stage
+2	Drama/TV
+3	Music
+4	Music/Art
+5	Music/Popular
+6	Music/Traditional
+7	Movie
+8	Movie/Action
+9	Movie/Comedy
+10	Movie/Family
+11	Movie/History
+12	Movie/Mystery
+13	Movie/Sci-Fi
+14	Movie/War
+15	Movie/Adventure
+16	Movie/Crime
+17	Movie/Fantasy
+18	Movie/Sport
+19	Movie/Documantary
+20	Movie/Film-Noir
+21	Movie/Music
+22	Movie/Biography
+23	Movie/Thriller
+24	Movie/Romance
+25	Animation
+26	Animation/America
+27	Animation/Asia
+28	Animation/Europe
+29	Game
+30	Game/PC
+31	Game/Video
+32	Education
+33	Education/Science
+34	Education/Engineering
+35	Education/Mathematics
+36	Education/History
+37	Education/Business
+38	Education/Humanities
+39	Education/Arts
+40	Education/Medicine
+41	Education/Languages
+42	Education/Law
+43	Education/Education
+44	Education/Social Sciences
+45	Event
+46	Event/Africa
+47	Event/Asia
+48	Event/Central America
+49	Event/Eastern Europe
+50	Event/European Union
+51	Event/Middle East
+52	Event/North America
+53	Event/Oceania
+54	Event/South America
+55	Event/The Caribbean
+56	Science&Technology
+57	Science&Technology/Behavioral&Social Sciences
+58	Science&Technology/Biochemistry
+59	Science&Technology/Botany
+60	Science&Technology/Chemistry
+61	Science&Technology/Computer Science
+62	Science&Technology/Earth&Space Sciences
+63	Science&Technology/Engineering
+64	Science&Technology/Environmental Sciences
+65	Science&Technology/Gerontology
+66	Science&Technology/Mathematics
+67	Science&Technology/Medicine&Health
+68	Science&Technology/Microbiology
+69	Science&Technology/Physics
+70	Science&Technology/Zoology
+71	Sport
+72	Sport/Games
+73	Sport/Athletics
+74	Sport/Gymnastics
+75	Sport/Dance
+76	Sport/Swimming
+77	Sport/Outdoor&adventurous activities
+78	Travel
+79	Travel/Africa
+80	Travel/Asia
+81	Travel/Central America
+82	Travel/Eastern Europe
+83	Travel/European Union
+84	Travel/Middle East
+85	Travel/North America
+86	Travel/Oceania
+87	Travel/South America
+88	Travel/The Caribbean
