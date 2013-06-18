@@ -1,5 +1,5 @@
 /**
- * ./classify class_trans category.map rec_file
+ * ./classify class_trans class_map rec_file
  *
  */
 #include<stdio.h>
@@ -25,25 +25,27 @@ struct cat_map
 };
 int score_field(char *,char*,struct map *,int,float *);
 int map_cmp(const void *,const void *);
+int count_score(float *,float *,int *);
 //char *get_class()
 int main(int argc, char *argv[])
 {
-	FILE *class_file,*rec_file,*output_file,*cat_file;
+	FILE *class_file,*rec_file,*output_file,*map_file;
 
 	int buffer_size = 100000000;
 	char *temp = (char *)malloc(sizeof(char)*buffer_size+3);
 	char class[1000][100];
+	int class_map[1000];
 	char field_temp[100000];
 	char *class_str;
 	int i=0,j=0,k=0,class_index=0,length=0,rec_left=0;
 	int map_size=0,match_flag=0;
-	float score_tbl[1000];
+	float score_tbl[1000],class_score_tbl[1000];
 	float score=0;
 	char *rec_start=NULL,*rec_end=NULL;
 	struct map *map = (struct map *)malloc(10000*sizeof(struct map)+1);
 	struct cat_map *cat_map = (struct cat_map *)malloc(10000*sizeof(struct cat_map)+1);
 	class_file = fopen(argv[1],"rb");
-	cat_file = fopen(argv[2],"rb");
+	map_file = fopen(argv[2],"rb");
 	rec_file = fopen(argv[3],"rb");
 	/*output_file = fopen(argv[3],"w");*/
 	i=0;
@@ -68,6 +70,13 @@ int main(int argc, char *argv[])
 			j++;
 		}
 	}*/
+	memset(class_map,0,sizeof(class_map));
+	while(fgets(temp,100000,map_file)!=NULL)
+	{
+		class_map[i] = atoi(temp);
+		i++;
+	}
+	i=0;
 	while(fgets(temp,100000,class_file)!=NULL)
 	{
 		if(temp[strlen(temp)-1] == '\n')
@@ -87,6 +96,7 @@ int main(int argc, char *argv[])
 			i++;
 		}
 	}
+	
 	qsort(map,i,sizeof(struct map),map_cmp);
 	map_size = i;
 	rec_start = temp;
@@ -124,6 +134,7 @@ int main(int argc, char *argv[])
 				}
 			}
 			//count score start
+			memset(class_score_tbl,0,sizeof(class_score_tbl));
 			memset(score_tbl,0,sizeof(score_tbl));
 			match_flag = 0;
 			class_str = NULL;
@@ -145,6 +156,7 @@ int main(int argc, char *argv[])
 					printf("@class:%s\n",class_str);
 				}
 			}*/
+			match_flag = count_score(score_tbl,class_score_tbl,class_map);//dominate match flag
 			if(match_flag != 0)
 			{
 				for(i=0;rec_start+i<rec_end;i++)
@@ -158,6 +170,11 @@ int main(int argc, char *argv[])
 					{
 						printf("%s:%f,",class[i],score_tbl[i]);
 					}
+					else if(class_score_tbl[i]>0)
+					{
+						printf("%s:%f,",class[class_map[i]],class_score_tbl[i]);
+					}
+
 				}
 				printf("\n");
 			}
@@ -167,6 +184,47 @@ int main(int argc, char *argv[])
 		//memset(temp+rec_left,0,100);
 	}
 	return 0;
+}
+int count_score(float *score_tbl,float *class_score_tbl,int *class_map)
+{
+	int i=0,flag=0;
+	int pri_index=0,pri_score=0;
+	int sec_index=0,sec_score=0;
+	for(i=0;i<1000;i++)
+	{
+		if(score_tbl[i]>SCORE_BOUND)
+		{
+			class_score_tbl[class_map[i]] += score_tbl[i];
+		}
+		else
+		{
+			score_tbl[i] = 0;
+		}
+		if(score_tbl[i]>pri_score)
+		{
+			pri_score = score_tbl[i];
+			pri_index = i;
+		}
+	}
+	for(i=0;i<1000;i++)
+	{
+		if(class_score_tbl[i]>pri_score+1)
+		{
+			pri_score = class_score_tbl[i];
+			pri_index = i;
+		}
+	}
+	for(i=0;i<1000;i++)
+	{
+		if(score_tbl[i]!=0)
+			flag = 1;
+		if(i!=pri_index)
+		{
+			score_tbl[i] = 0;
+			class_score_tbl[i] = 0;
+		}
+	}
+	return flag;
 }
 int map_cmp(const void *a,const void *b)
 {
@@ -317,7 +375,7 @@ int score_field(char *field_temp,char *field_name,struct map *map,int map_size,f
 		{
 			quot_end_flag = isquot_end(field_temp[content_last]);
 		}*/
-		while(i<strlen(field_temp)-1)//buggy
+		while(i<strlen(field_temp)-1)
 		{
 			if(!iscut(field_temp[content_last]))
 			{
